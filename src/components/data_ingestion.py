@@ -6,12 +6,13 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+
 @dataclass  
 class DataIngestionConfig:
     timestamp = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    feature_store_file_path = os.path.join("artifacts",timestamp,'stud.csv')
-    train_data_file_path = os.path.join("artifacts",timestamp,'stud_train.csv')
-    test_data_file_path = os.path.join("artifacts",timestamp,'stud_test.csv')
+    feature_store_file_path = os.path.join("artifacts",timestamp,"ingested",'stud.csv')
+    train_data_file_path = os.path.join("artifacts",timestamp,"ingested",'stud_train.csv')
+    test_data_file_path = os.path.join("artifacts",timestamp,"ingested",'stud_test.csv')
 
 @dataclass
 class DataIngestionArtifact:
@@ -33,14 +34,14 @@ class DataIngestion:
 
             data = pd.read_csv(raw_data_path)
 
-            data.to_csv(self.data_ingestion_config.feature_store_file_path, header=False, index=False)
+            data.to_csv(self.data_ingestion_config.feature_store_file_path, header=True, index=False)
             logging.info("Data Ingestion: Train Test data split initialized")
             train_data, test_data = train_test_split(data, test_size=0.3, random_state=42)
 
             # Export train and test data to CSV file and store under artifactfolder
 
-            train_data.to_csv(self.data_ingestion_config.train_data_file_path, header=False, index=False)
-            test_data.to_csv(self.data_ingestion_config.test_data_file_path, header=False, index=False)
+            train_data.to_csv(self.data_ingestion_config.train_data_file_path, header=True, index=False)
+            test_data.to_csv(self.data_ingestion_config.test_data_file_path, header=True, index=False)
 
             logging.info("Data Ingestion : Train and Test split of data completed successfully")
             data_ingestion_artifact = DataIngestionArtifact(self.data_ingestion_config.train_data_file_path,self.data_ingestion_config.test_data_file_path)
@@ -51,6 +52,3 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 
-if __name__ =='__main__':
-    obj = DataIngestion()
-    obj.initiate_data_ingestion()
