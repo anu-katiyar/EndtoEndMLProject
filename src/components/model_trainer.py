@@ -22,7 +22,7 @@ from src.components.data_transformation import DataTransformation,DataTransforma
 @dataclass
 class ModelTrainerConfig:
  timestamp = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
- model_train_file_path = os.path.join("aritfacts",timestamp,"model","StudModel.pkl")
+ model_train_file_path = os.path.join("artifacts",timestamp,"model","StudModel.pkl")
 
 class ModelTrainer:
     def __init__(self, model_train_config:ModelTrainerConfig, data_transformation_artifact: DataTransformationArtifact):
@@ -118,13 +118,3 @@ class ModelTrainer:
             return r2_square
         except Exception as e:
             raise CustomException(e,sys)
-
-
-
-if __name__ == "__main__":
-    data_ingest_artifact=DataIngestion().initiate_data_ingestion()
-    data_transform_obj = DataTransformation(data_ingest_artifact,DataTransformationConfig())
-    data_transform_artifact = data_transform_obj.initiate_data_transformation()
-    
-    model_train_obj = ModelTrainer(ModelTrainerConfig(), data_transform_artifact)
-    score = model_train_obj.initiate_model_trainer()

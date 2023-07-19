@@ -22,6 +22,7 @@ class DataIngestionArtifact:
 raw_data_path ='notebook\data\stud.csv'
 class DataIngestion:
     def __init__(self):
+        #self.training_pipeline_config = train_pipeline_config
         self.data_ingestion_config = DataIngestionConfig()
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
