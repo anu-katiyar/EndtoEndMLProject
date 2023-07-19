@@ -112,10 +112,4 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e,sys)
 
-if __name__ == "__main__":
-    objdataIng=DataIngestion()
-    data_ingest_artifact=objdataIng.initiate_data_ingestion()
-    data_tranform_config = DataTransformationConfig()
-    data_transform_obj = DataTransformation(data_ingest_artifact,data_tranform_config)
-    data_transform_artifact=data_transform_obj.initiate_data_transformation()
    

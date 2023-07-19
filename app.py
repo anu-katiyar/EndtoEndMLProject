@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -8,7 +8,10 @@ def index():
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return rendertemplate('home.html')
+    if method == 'GET':
+        return render_template('home.html')
+    else:  
+        return render_template('home.html')
 
 
 if __name__ == '__main__': 
