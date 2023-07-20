@@ -30,6 +30,6 @@ class TrainPipeline:
         self.is_pipeline_running =False
 
 
-if __name__ == '__main__':
-    tp = TrainPipeline()
-    tp.runPipeline()
+#if __name__ == '__main__':
+   # tp = TrainPipeline()
+   # tp.runPipeline()

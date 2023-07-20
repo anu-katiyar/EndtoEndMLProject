@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from src.pipeline.predict_pipeline import PredictPipeline, CustomData
 
 
 app = Flask(__name__)
@@ -7,15 +8,31 @@ app = Flask(__name__)
 def index():
     return "Welcome to home page"
 
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    if method == 'GET':
+@app.route('/predict', methods=['GET', 'POST'])
+def predictData():
+    if request.method == 'GET':
         return render_template('home.html')
     else:  
-        return render_template('home.html')
+        data=CustomData(
+            gender=request.form.get('gender'),
+            race_ethnicity=request.form.get('ethnicity'),
+            parental_level_of_education=request.form.get('parental_level_of_education'),
+            lunch=request.form.get('lunch'),
+            test_preparation_course=request.form.get('test_preparation_course'),
+            reading_score=float(request.form.get('writing_score')),
+            writing_score=float(request.form.get('reading_score'))
+            )
+        pred_df=data.get_data_as_data_frame()
+        print(pred_df)
+        print("Before Prediction")
+
+        predict_pipeline=PredictPipeline()
+        print("Mid Prediction")
+        results=predict_pipeline.predict(pred_df)
+        print("after Prediction")
+    return render_template('home.html',results=results[0])
 
 
 
 if __name__ == '__main__': 
-    main()
-    #app.run('0.0.0.0', port =80, debug=True)
+    app.run('0.0.0.0', debug=True)

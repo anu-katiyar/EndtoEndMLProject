@@ -1,11 +1,12 @@
 import yaml
 from src.exception import CustomException
 from src.logger import logging
-import os,sys
+import os,sys, pathlib, glob
 import pickle
 import numpy as np
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score
+from datetime import datetime
 
 def read_yaml_file(file_path: str) -> dict:
     try:
@@ -93,3 +94,13 @@ def load_object(file_path):
 
     except Exception as e:
         raise CustomException(e, sys)
+
+def get_latest_artifact_folder():
+    directory = os.path.dirname("artifacts/")
+    folders ={}
+    for i in os.listdir(directory):
+        file_time = str(datetime.fromtimestamp(os.path.getctime(os.path.join(directory,i))))
+        folders[i] = file_time.split(".")[0]
+    
+    latestfolder =[k for k, v in folders.items() if v ==max(folders.values())]
+    return latestfolder[0]
